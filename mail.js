@@ -69,7 +69,7 @@ function generateMessage(to) {
         message: {
             subject: 'Title',
             body: { contentType: 'HTML', content: 'article' },
-            toRecipients: [ { emailAddress: { address: '' } } ],
+            toRecipients: [ { emailAddress: { address: to } } ],
         },
         saveToSentItems: 'false',
     };
@@ -89,7 +89,6 @@ function generateMessage(to) {
         '在' + faker.address.city() + '找到' + 
         '<strong>' + randomSkill() + '</strong>';
 
-    mail.message.toRecipients[0].emailAddress.address = to;
 
     return mail;
 }
@@ -109,7 +108,7 @@ async function sendMail(users) {
     // node mail.js [ANY STUFF] will execute this function instead of broadcast
     async function me() {
         let u = users[Math.floor(Math.random()*users.length)];
-        let master = process.env.MAIL
+        let master = process.env.EMAIL;
         
         await axios.post(`/users/${u}/sendMail`,generateMessage(master));
         return u;
