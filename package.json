@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "axios": "^0.20.0",
+    "chalk": "^4.1.0",
+    "dotenv-safe": "^8.2.0",
+    "faker": "^5.1.0",
+    "lorem-ipsum": "^2.0.3"
+  },
+  "name": "msgraph",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}
