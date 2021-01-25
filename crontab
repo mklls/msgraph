@@ -1,0 +1,4 @@
+30 1 * * * PATH/TO/NODE /root/nodejs/msgraph/mail.js me >> /root/nodejs/msgraph/log/me.log
+*/20 6 * * * PATH/TO/NODE /root/nodejs/msgraph/mail.js >> /root/nodejs/msgraph/log/mail.log
+*/30 * * * * PATH/TO/NODE /root/nodejs/msgraph/app.js >> /root/nodejs/msgraph/log/api.log
+59 23 */7 * * PATH/TO/NODE ls /root/nodejs/msgraph/log | xargs rm
