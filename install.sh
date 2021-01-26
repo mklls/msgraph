@@ -26,7 +26,7 @@ sed -i -e "s@TenantIDFromAAD@$tenant_id@" \
     -e "s@StormThatIsApproaching@$client_secret@" \
     -e "s@YourValidEmail@$email@" .env
 
-sed -i -e "s@PATH/TO/NODE@$(which node)@g" \ 
+sed -i -e "s@PATH/TO/NODE@$(which node)@g" \
     -e "s@PATH/TO/MSGRAPH@$(pwd)@g" schedule
 
 crontab -l | { cat; cat schedule; } | sed 's/no crontab for root//' | crontab -
