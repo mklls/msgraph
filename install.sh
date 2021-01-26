@@ -38,3 +38,5 @@ if node -v &>/dev/null; then
 else
     curl -L https://git.io/n-install | bash -s -- -y
 fi
+
+mkdir logs
