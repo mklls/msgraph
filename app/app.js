@@ -27,7 +27,7 @@ const common = [
     '/applications?$count=true'
 ];
 
-// APIs which need post/get with extra data
+// needs post with extra data
 const REST = [
     '/',
     '/messages',
