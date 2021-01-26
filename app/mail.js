@@ -94,6 +94,7 @@ function generateMessage(to) {
         '在' + faker.address.city() + '找到' + 
         '<strong>' + randomSkill() + '</strong>';
 
+
     return mail;
 }
 
