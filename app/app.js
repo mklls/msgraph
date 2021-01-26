@@ -3,7 +3,10 @@ const axios = require('axios');
 const chalk = require('chalk');
 const auth = require(path.join(__dirname, '/lib/auth'));
 
-require('dotenv-safe').config();  // load environment variable
+require('dotenv-safe').config({
+        path: path.join(__dirname, '../.env'),
+        example: path.join(__dirname, '../.env.example')
+});
 
 function log() {
     let args = Array.prototype.slice.call(arguments);

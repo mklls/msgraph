@@ -5,7 +5,11 @@ const faker = require('faker');
 const fs = require('fs');
 const chalk = require('chalk');
 
-require('dotenv-safe').config();
+require('dotenv-safe').config({
+	path: path.join(__dirname, '../.env'),
+	example: path.join(__dirname, '../.env.example')
+});
+
 faker.locale = 'zh_CN'; //en_US
 
 const quote = fs
@@ -13,11 +17,11 @@ const quote = fs
     .toString()
     .split('\n');
 const characters = fs
-    .readFileSync(path.join(__dirname, './assets/hans.txt'))
+    .readFileSync(path.join(__dirname, '/assets/hans.txt'))
     .toString()
     .split('\n');
 const skills = fs
-    .readFileSync(path.join(__dirname, './assets/skill.txt'))
+    .readFileSync(path.join(__dirname, '/assets/skill.txt'))
     .toString()
     .split('\n');
 
@@ -69,9 +73,10 @@ function generateMessage(to) {
         message: {
             subject: 'Title',
             body: { contentType: 'HTML', content: 'article' },
-            toRecipients: [ { emailAddress: { address: '' } } ],
+            toRecipients: [ { emailAddress: { address: to } } ],
         },
         saveToSentItems: 'false',
+        
     };
 
     mail.message.subject =  randomName() + ' ' + 
@@ -88,8 +93,6 @@ function generateMessage(to) {
         '<strong>' + randomName()  + '</strong>'+ 
         '在' + faker.address.city() + '找到' + 
         '<strong>' + randomSkill() + '</strong>';
-
-    mail.message.toRecipients[0].emailAddress.address = to;
 
     return mail;
 }
@@ -109,7 +112,7 @@ async function sendMail(users) {
     // node mail.js [ANY STUFF] will execute this function instead of broadcast
     async function me() {
         let u = users[Math.floor(Math.random()*users.length)];
-        let master = process.env.MAIL
+        let master = process.env.EMAIL;
         
         await axios.post(`/users/${u}/sendMail`,generateMessage(master));
         return u;
@@ -120,7 +123,7 @@ async function sendMail(users) {
             let u = await me();
             log(chalk.greenBright(u), 'done');
         } catch (error) {
-            log(chalk.redBright(error.message));
+            log(chalk.redBright(error));
         }
     } else {
         for (let i of users) {
@@ -139,3 +142,4 @@ async function sendMail(users) {
 init()
     .then(getUsers)
     .then(sendMail);
+
