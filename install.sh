@@ -51,7 +51,7 @@ install_node_via_nvm() {
     fi
 }
 
-check_prerequisites() {
+install_prerequisites() {
     if mgh_has "git"; then
         echo "$grn[git]$white is already installed"
     else
@@ -71,7 +71,7 @@ check_prerequisites() {
     fi
 }
 
-check_prerequisites
+install_prerequisites
 
 if git clone https://github.com/mklls/msgraph.git; then
     cd msgraph && cp .env.example .env
