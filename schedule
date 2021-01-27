@@ -1,4 +1,4 @@
 30 7 * * * PATH/TO/NODE PATH/TO/MSGRAPH/app/mail.js me >> PATH/TO/MSGRAPH/logs/me.log
-0 3 * * 1-6 PATH/TO/NODE PATH/TO/MSGRAPH/app/mail.js >> PATH/TO/MSGRAPH/logs/mail.log
-*/30 7-22 * * 1-6 PATH/TO/NODE PATH/TO/MSGRAPH/app/app.js >> PATH/TO/MSGRAPH/logs/api.log
+0 3 * * 1-5 PATH/TO/NODE PATH/TO/MSGRAPH/app/mail.js >> PATH/TO/MSGRAPH/logs/mail.log
+*/30 7-22 * * 1-5 PATH/TO/NODE PATH/TO/MSGRAPH/app/app.js >> PATH/TO/MSGRAPH/logs/api.log
 0 0 * * SUN bash <(yes | rm PATH/TO/MSGRAPH/logs/*)

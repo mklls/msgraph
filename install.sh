@@ -18,7 +18,7 @@ install() {
     echo "y" | sudo apt install $1
 
     if mgh_has $1; then
-        echo "[git] installed"
+        echo "[$1] installed"
     else
         echo &>2 "$red[error]$white failed to install $1"
         exit 1
@@ -30,7 +30,6 @@ install_node_via_nvm() {
     # The script clones the nvm repository to ~/.nvm, 
     # and attempts to add the source lines from the 
     # snippet below to the correct profile file
-    yarn_installed=false
 
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
@@ -56,12 +55,6 @@ install_prerequisites() {
         echo "$grn[git]$white is already installed"
     else
         install "git"
-    fi
-
-    if mgh_has "curl"; then
-        echo "$grn[curl]$white is already installed"
-    else 
-        install "curl"
     fi
 
     if mgh_has "node" && mgh_has "npm"; then
@@ -94,15 +87,33 @@ sed -i -e "s@PATH/TO/NODE@$(which node)@g" \
     -e "s@PATH/TO/MSGRAPH@$(pwd)@g" schedule
 
 mkdir logs
-yarn
+if mgh_has "yarn"; then
+    yarn
+else
+    npm install
+fi
 
 echo "$blu[info]$white scheduling tasks with cron"
 crontab -l | { cat; cat schedule; } | sed 's/no crontab for root//' | crontab -
 
 if [ $? -eq 0 ]; then
+    echo ""
+    node app/mail.js testing
+
+    if [ $? -eq 0 ]; then
+        echo "$blu[info]$white testing passed"
+        echo "$blu[info]$white an email has been sent, please check your inbox"
+    else
+        echo "$red[error]$white testing failed" 
+        echo "you can edit in $mag.env$white file, please review the value to ensure that All of the information is corret"
+        echo "perhaps you need to add additional permissions in order to use"
+        echo "bye"
+    fi
+    
     echo -e "Now add these lines to your ~/.bashrc, ~/.profile, or ~/.zshrc" \
         "file to have it automatically sourced upon login: (you may have to add" \
         "to more than one of the above files)"
+
     echo "$cyn---------------------------$white"
     echo "export NVM_DIR=\"\$HOME/.nvm\""
     echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && \. \"\$NVM_DIR/nvm.sh\"  # This loads nvm"
