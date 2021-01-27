@@ -40,7 +40,7 @@ install_node_via_nvm() {
         echo "installing yarn"
         npm i -g yarn
 
-        if mgh_has yarn; then
+        if mgh_has "yarn"; then
             echo "$grn[yarn]$white installed"
         else 
             echo >&2 "$red[error]$white failed to install yarn"
@@ -74,7 +74,7 @@ install_prerequisites() {
 install_prerequisites
 
 if git clone https://github.com/mklls/msgraph.git; then
-    cd msgraph && cp .env.example .env
+    cd msgraph && cp .env.example .env && yarn
 else 
     echo >&2 "$red[error]$white failed to clone repo" 
     exit 1

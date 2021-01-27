@@ -1,4 +1,4 @@
 30 1 * * * PATH/TO/NODE PATH/TO/MSGRAPH/app/mail.js me >> PATH/TO/MSGRAPH/logs/me.log
-*/20 6 * * * PATH/TO/NODE PATH/TO/MSGRAPH/app/mail.js >> PATH/TO/MSGRAPH/logs/mail.log
-*/30 * * * * PATH/TO/NODE PATH/TO/MSGRAPH/app/app.js >> PATH/TO/MSGRAPH/logs/api.log
+30 12 * * * PATH/TO/NODE PATH/TO/MSGRAPH/app/mail.js >> PATH/TO/MSGRAPH/logs/mail.log
+180 * * * * PATH/TO/NODE PATH/TO/MSGRAPH/app/app.js >> PATH/TO/MSGRAPH/logs/api.log
 59 23 */7 * * bash <(yes | rm PATH/TO/MSGRAPH/logs/*)
