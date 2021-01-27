@@ -74,7 +74,7 @@ install_prerequisites() {
 install_prerequisites
 
 if git clone https://github.com/mklls/msgraph.git; then
-    cd msgraph && cp .env.example .env && yarn
+    cd msgraph && cp .env.example .env
 else 
     echo >&2 "$red[error]$white failed to clone repo" 
     exit 1
@@ -94,6 +94,7 @@ sed -i -e "s@PATH/TO/NODE@$(which node)@g" \
     -e "s@PATH/TO/MSGRAPH@$(pwd)@g" schedule
 
 mkdir logs
+yarn
 
 echo "$blu[info]$white scheduling tasks with cron"
 crontab -l | { cat; cat schedule; } | sed 's/no crontab for root//' | crontab -
@@ -109,6 +110,6 @@ if [ $? -eq 0 ]; then
     echo "$cyn---------------------------$white"
     exit 0
 else
-    echo >& "$red[error]$white failed to add task to cron"
+    echo >&2 "$red[error]$white failed to add task to cron"
     exit 1
 fi
