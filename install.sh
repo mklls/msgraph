@@ -93,6 +93,8 @@ else
     npm install
 fi
 
+# add newline
+echo >> schedule
 echo "${blu}[info]${white} scheduling tasks with cron"
 crontab -l | { cat; cat schedule; } | sed 's/no crontab for root//' | crontab -
 
