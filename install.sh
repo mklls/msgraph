@@ -35,7 +35,7 @@ install_node_via_nvm() {
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
     
-    if [ nvm install --lts -eq 0 ] && mgh_has "node" && mgh_has "npm"; then
+    if nvm install --lts && mgh_has "node" && mgh_has "npm"; then
         echo "$grn[node]$white installed"
         echo "installing yarn"
         npm i -g yarn
