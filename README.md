@@ -15,6 +15,4 @@
 
 ```bash
 curl -o- https://raw.githubusercontent.com/mklls/msgraph/master/install.sh | bash
-source /root/.bashrc
-cd msgraph && npm install
 ```
