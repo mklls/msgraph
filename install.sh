@@ -81,7 +81,7 @@ read -p "${cyn}email:${white}" email
 sed -i -e "s@TenantIDFromAAD@$tenant_id@" \
     -e "s@YourAppClientID@$client_id@" \
     -e "s@StormThatIsApproaching@$client_secret@" \
-    -e "s@YourValidEmail@$email@" .env
+    -e "s#YourValidEmail#$email#" .env
 
 sed -i -e "s@PATH/TO/NODE@$(which node)@g" \
     -e "s@PATH/TO/MSGRAPH@$(pwd)@g" schedule
