@@ -6,11 +6,6 @@ mag=$'\e[1;35m'
 cyn=$'\e[1;36m'
 white=$'\e[0m'
 
-read -p "${cyn}tenant id:${white}" tenant_id
-read -p "${cyn}client id:${white}" client_id
-read -p "${cyn}client secret:${white}" client_secret
-read -p "${cyn}email:${white}" email
-
 mgh_has() {
     # 2>&1 redirect stderr to stdout
     type "$1" > /dev/null 2>&1
@@ -77,6 +72,11 @@ else
     echo >&2 "${red}[error]${white} failed to clone repo" 
     exit 1
 fi
+
+read -p "${cyn}tenant id:${white}" tenant_id
+read -p "${cyn}client id:${white}" client_id
+read -p "${cyn}client secret:${white}" client_secret
+read -p "${cyn}email:${white}" email
 
 sed -i -e "s@TenantIDFromAAD@$tenant_id@" \
     -e "s@YourAppClientID@$client_id@" \

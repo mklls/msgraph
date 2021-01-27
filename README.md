@@ -30,5 +30,5 @@ Before you start, you should add the following *application permissions* to your
 ### install with curl
 
 ```bash
-curl -o- https://raw.githubusercontent.com/mklls/msgraph/master/install.sh | bash
+curl -o install.sh https://raw.githubusercontent.com/mklls/msgraph/master/install.sh && chmod +x install.sh && ./install.sh
 ```
