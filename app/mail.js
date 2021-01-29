@@ -2,41 +2,12 @@ const axios = require('axios');
 const path = require('path');
 const util = require(path.join(__dirname, 'lib/auth'));
 const faker = require('faker');
-const fs = require('fs');
 const chalk = require('chalk');
 
 require('dotenv-safe').config({
 	path: path.join(__dirname, '../.env'),
 	example: path.join(__dirname, '../.env.example')
 });
-
-faker.locale = 'zh_CN'; //en_US
-
-const quote = fs
-    .readFileSync(path.join(__dirname, '/assets/quote.txt'))
-    .toString()
-    .split('\n');
-const characters = fs
-    .readFileSync(path.join(__dirname, '/assets/hans.txt'))
-    .toString()
-    .split('\n');
-const skills = fs
-    .readFileSync(path.join(__dirname, '/assets/skill.txt'))
-    .toString()
-    .split('\n');
-
-const randomName = () => faker.name.lastName() + faker.name.firstName();
-const randomQuote = () => quote[parseInt(Math.random() * quote.length - 1, 10)];
-const randomSkill = () => {
-    let suffix = skills[parseInt(Math.random()*skills.length, 10) - 1];
-    let length = parseInt(Math.random() * 3 + 1, 10);
-    let temp = ''
-    for (let i = 0; i < length; i++) {
-        temp += characters[parseInt(Math.random() * characters.length, 10) - 1];
-    }
-
-    return temp + suffix;
-}
 
 function log() {
     let args = Array.prototype.slice.call(arguments);
@@ -51,7 +22,7 @@ function init() {
             axios.defaults.headers = {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token,
-                'User-Agent': 'Puppy/0.2',
+                'User-Agent': 'Puppy/0.3',
             };
             resolve();
         }, reason => reject(reason));
@@ -75,25 +46,15 @@ function generateMessage(to) {
             body: { contentType: 'HTML', content: 'article' },
             toRecipients: [ { emailAddress: { address: to } } ],
         },
-        saveToSentItems: 'false',
-        
+        saveToSentItems: 'false'
     };
 
-    mail.message.subject =  randomName() + ' ' + 
-        faker.hacker.verb() + ' ' +
-        randomSkill();
+    mail.message.subject =  faker.company.companyName()
 
     mail.message.body.content = '' +
-        '<p><strong>' + randomQuote() + '</strong></p>' +
-        '<strong>' + Date() + '</strong>' + 
-        '<br>' +
-        '<img src="https://source.unsplash.com/random/200x200" alt="Wish I were there...">' +
-        '<p>' + faker.lorem.paragraphs(3, '<br>') + '</p>' + 
-        '<br>' +
-        '<strong>' + randomName()  + '</strong>'+ 
-        '在' + faker.address.city() + '找到' + 
-        '<strong>' + randomSkill() + '</strong>';
-
+        '<p>' + Date() + '</p>' + 
+        '<img src="https://source.unsplash.com/random/300x300" alt="Wish I were there...">' +
+        '<br>' + '<p>' + faker.lorem.paragraphs(3, '<br>') + '</p>';
 
     return mail;
 }
@@ -102,6 +63,7 @@ async function sendMail(users) {
 
     async function broadcast(from) {
         for (let to of users) {
+            if (from === to) continue;
             await axios.post(
                 `/users/${from}/sendMail`,
                 generateMessage(to)
